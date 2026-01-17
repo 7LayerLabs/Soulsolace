@@ -1,19 +1,24 @@
 import React from 'react';
-import { 
-  Cross, 
-  MoonStar, 
-  Star, 
-  Flower2, 
-  Sparkles, 
-  Heart, 
+import {
+  Cross,
+  MoonStar,
+  Star,
+  Flower2,
+  Sparkles,
+  Heart,
   ArrowRight,
   RefreshCw,
   Copy,
   ChevronLeft,
+  ChevronRight,
   BookOpen,
   CheckCircle,
   ExternalLink,
-  ShieldCheck
+  ShieldCheck,
+  AlertCircle,
+  Check,
+  Info,
+  Link
 } from 'lucide-react';
 
 export const Icons: Record<string, React.FC<{ className?: string }>> = {
@@ -22,16 +27,21 @@ export const Icons: Record<string, React.FC<{ className?: string }>> = {
   Star,
   Flower2,
   Sparkles,
-  Om: Flower2, 
+  Om: Flower2,
   Heart,
   ArrowRight,
   RefreshCw,
   Copy,
   ChevronLeft,
+  ChevronRight,
   BookOpen,
   CheckCircle,
   ExternalLink,
-  ShieldCheck
+  ShieldCheck,
+  AlertCircle,
+  Check,
+  Info,
+  Link
 };
 
 interface IconProps {

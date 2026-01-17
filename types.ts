@@ -32,3 +32,26 @@ export interface GroundingSource {
   title: string;
   uri: string;
 }
+
+export type LoadingPhase = 'searching' | 'generating' | 'finalizing';
+
+export interface LoadingState {
+  phase: LoadingPhase;
+  progress: number; // 0-100
+  message: string;
+}
+
+export const LOADING_PHASES: Record<LoadingPhase, { message: string; progress: number }> = {
+  searching: {
+    message: 'Searching scriptural records...',
+    progress: 33
+  },
+  generating: {
+    message: 'Finding authentic prayers...',
+    progress: 66
+  },
+  finalizing: {
+    message: 'Verifying theological sources...',
+    progress: 90
+  }
+};
