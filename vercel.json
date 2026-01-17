@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/soulsolace", "destination": "/index.html" },
+    { "source": "/soulsolace/", "destination": "/index.html" },
+    { "source": "/soulsolace/:path*", "destination": "/:path*" }
+  ]
+}
