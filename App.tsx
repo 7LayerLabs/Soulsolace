@@ -4,7 +4,14 @@ import { RELIGIONS } from './constants';
 import { generatePrayer } from './services/geminiService';
 import { ReligionCard } from './components/ReligionCard';
 import { PrayerDisplay } from './components/PrayerDisplay';
+import { SeasonalBanner } from './components/SeasonalBanner';
 import { Icon } from './components/Icon';
+import { InstallPrompt } from './components/InstallPrompt';
+import { CommunityPanel } from './components/CommunityPanel';
+import { SubscribeModal } from './components/SubscribeModal';
+import { JournalPanel } from './components/JournalPanel';
+import { FavoritesPanel } from './components/FavoritesPanel';
+import { getPrimarySeason, Season } from './services/religiousCalendar';
 
 const MAX_CHARS = 500;
 
@@ -18,6 +25,11 @@ const App: React.FC = () => {
   const [loadingPhase, setLoadingPhase] = useState<LoadingPhase>('searching');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const [currentSeason, setCurrentSeason] = useState<Season | null>(null);
+  const [showCommunityPanel, setShowCommunityPanel] = useState(false);
+  const [showSubscribeModal, setShowSubscribeModal] = useState(false);
+  const [showJournalPanel, setShowJournalPanel] = useState(false);
+  const [showFavoritesPanel, setShowFavoritesPanel] = useState(false);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -39,6 +51,9 @@ const App: React.FC = () => {
     setSelectedReligion(religion);
     setState('INPUT');
     setError(null);
+    // Check for current religious season
+    const season = getPrimarySeason(religion.id);
+    setCurrentSeason(season);
   };
 
   const handleSubmit = useCallback(async () => {
@@ -59,7 +74,8 @@ const App: React.FC = () => {
         situation,
         {
           signal: abortControllerRef.current.signal,
-          onPhaseChange: setLoadingPhase
+          onPhaseChange: setLoadingPhase,
+          season: currentSeason || undefined
         }
       );
       setPrayers(prayers);
@@ -75,7 +91,7 @@ const App: React.FC = () => {
     } finally {
       setIsSubmitting(false);
     }
-  }, [situation, selectedReligion, isSubmitting]);
+  }, [situation, selectedReligion, isSubmitting, currentSeason]);
 
   const handleReset = () => {
     // Abort any pending request
@@ -88,6 +104,7 @@ const App: React.FC = () => {
     setSources([]);
     setError(null);
     setIsSubmitting(false);
+    setCurrentSeason(null);
   };
 
   const handleBack = () => {
@@ -134,7 +151,46 @@ const App: React.FC = () => {
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 py-12 md:py-20">
 
-        <header className={`text-center mb-12 transition-all duration-700 ${state === 'RESULT' ? 'md:mb-8 opacity-90' : 'md:mb-16'}`}>
+        <header className={`text-center mb-12 transition-all duration-700 ${state === 'RESULT' ? 'md:mb-8 opacity-90' : 'md:mb-16'} relative`}>
+          {/* Header buttons */}
+          <div className="absolute right-0 top-0 flex items-center gap-2">
+            {/* Daily Prayers button */}
+            <button
+              onClick={() => setShowSubscribeModal(true)}
+              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl shadow-sm text-white hover:from-indigo-700 hover:to-purple-700 transition-all group"
+            >
+              <Icon name="Heart" className="w-5 h-5 transition-transform group-hover:scale-110" />
+              <span className="text-sm font-medium hidden sm:inline">Daily Prayers</span>
+            </button>
+
+            {/* Favorites button */}
+            <button
+              onClick={() => setShowFavoritesPanel(true)}
+              className="flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-md rounded-xl shadow-sm border border-white/40 text-slate-600 hover:text-rose-500 hover:border-rose-200 transition-all group"
+            >
+              <Icon name="Heart" className="w-5 h-5 transition-transform group-hover:scale-110" />
+              <span className="text-sm font-medium hidden sm:inline">Favorites</span>
+            </button>
+
+            {/* Journal button */}
+            <button
+              onClick={() => setShowJournalPanel(true)}
+              className="flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-md rounded-xl shadow-sm border border-white/40 text-slate-600 hover:text-amber-600 hover:border-amber-200 transition-all group"
+            >
+              <Icon name="BookOpen" className="w-5 h-5 transition-transform group-hover:scale-110" />
+              <span className="text-sm font-medium hidden sm:inline">Journal</span>
+            </button>
+
+            {/* Community button */}
+            <button
+              onClick={() => setShowCommunityPanel(true)}
+              className="flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-md rounded-xl shadow-sm border border-white/40 text-slate-600 hover:text-amber-600 hover:border-amber-200 transition-all group"
+            >
+              <Icon name="Users" className="w-5 h-5 transition-transform group-hover:scale-110" />
+              <span className="text-sm font-medium hidden sm:inline">Community</span>
+            </button>
+          </div>
+
           <div className="relative inline-flex items-center justify-center p-3 mb-6 bg-white/80 backdrop-blur-md rounded-2xl shadow-sm border border-white/40 overflow-hidden">
             <div className="absolute inset-0 opacity-20 bg-cover bg-center" style={{ backgroundImage: 'url("/assets/hero.png")' }} />
             <Icon name="ShieldCheck" className="w-6 h-6 text-amber-600 relative z-10" />
@@ -176,6 +232,23 @@ const App: React.FC = () => {
                 <Icon name="ChevronLeft" className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
                 Back to traditions
               </button>
+
+              {/* Seasonal Banner */}
+              {currentSeason && (
+                <SeasonalBanner
+                  season={currentSeason}
+                  religionId={selectedReligion.id}
+                  onSuggestionClick={(intention) => {
+                    // Append or set the intention in the textarea
+                    if (situation.trim()) {
+                      setSituation((prev) => `${prev} (${intention})`);
+                    } else {
+                      setSituation(`I am seeking prayers for ${intention}`);
+                    }
+                    textareaRef.current?.focus();
+                  }}
+                />
+              )}
 
               <div className="glass-card-premium rounded-3xl">
                 <div className="p-8">
@@ -276,7 +349,13 @@ const App: React.FC = () => {
           )}
 
           {state === 'RESULT' && prayers.length > 0 && (
-            <PrayerDisplay prayers={prayers} sources={sources} onReset={handleReset} />
+            <PrayerDisplay
+              prayers={prayers}
+              sources={sources}
+              onReset={handleReset}
+              religion={selectedReligion?.id}
+              situation={situation}
+            />
           )}
         </main>
 
@@ -284,6 +363,33 @@ const App: React.FC = () => {
           <p>&copy; {new Date().getFullYear()} SoulSolace. Verifying prayers via theological grounding.</p>
         </footer>
       </div>
+
+      {/* PWA Install Prompt */}
+      <InstallPrompt />
+
+      {/* Community Panel */}
+      <CommunityPanel
+        isOpen={showCommunityPanel}
+        onClose={() => setShowCommunityPanel(false)}
+      />
+
+      {/* Subscribe Modal */}
+      <SubscribeModal
+        isOpen={showSubscribeModal}
+        onClose={() => setShowSubscribeModal(false)}
+      />
+
+      {/* Journal Panel */}
+      <JournalPanel
+        isOpen={showJournalPanel}
+        onClose={() => setShowJournalPanel(false)}
+      />
+
+      {/* Favorites Panel */}
+      <FavoritesPanel
+        isOpen={showFavoritesPanel}
+        onClose={() => setShowFavoritesPanel(false)}
+      />
     </div>
   );
 };

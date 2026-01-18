@@ -3,5 +3,15 @@
     { "source": "/soulsolace", "destination": "/index.html" },
     { "source": "/soulsolace/", "destination": "/index.html" },
     { "source": "/soulsolace/:path*", "destination": "/:path*" }
+  ],
+  "crons": [
+    {
+      "path": "/api/send-daily?time=morning",
+      "schedule": "0 6 * * *"
+    },
+    {
+      "path": "/api/send-daily?time=evening",
+      "schedule": "0 18 * * *"
+    }
   ]
 }

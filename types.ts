@@ -1,9 +1,22 @@
+export enum Language {
+  English = "English",
+  Hebrew = "Hebrew",
+  Arabic = "Arabic",
+  Sanskrit = "Sanskrit",
+  Pali = "Pali",
+  Latin = "Latin",
+  Greek = "Greek",
+}
+
 export interface PrayerResponse {
   title: string;
   prayerBody: string;
   explanation: string;
   isCanonical: boolean;
   origin?: string;
+  originalLanguage?: Language;
+  originalText?: string;
+  transliteration?: string;
 }
 
 export enum Religion {

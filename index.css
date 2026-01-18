@@ -380,6 +380,158 @@
   to { transform: rotate(360deg); }
 }
 
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s ease-out forwards;
+}
+
+/* Fade in up animation */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.4s ease-out forwards;
+}
+
+/* Fade in animation */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+/* Scale in animation */
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scale-in {
+  animation: scale-in 0.2s ease-out forwards;
+}
+
+/* Sound bar animations for audio playing indicator */
+@keyframes sound-bar-1 {
+  0%, 100% { height: 4px; }
+  50% { height: 16px; }
+}
+
+@keyframes sound-bar-2 {
+  0%, 100% { height: 8px; }
+  50% { height: 12px; }
+}
+
+@keyframes sound-bar-3 {
+  0%, 100% { height: 6px; }
+  50% { height: 14px; }
+}
+
+.animate-sound-bar-1 {
+  animation: sound-bar-1 0.5s ease-in-out infinite;
+}
+
+.animate-sound-bar-2 {
+  animation: sound-bar-2 0.6s ease-in-out infinite;
+  animation-delay: 0.1s;
+}
+
+.animate-sound-bar-3 {
+  animation: sound-bar-3 0.4s ease-in-out infinite;
+  animation-delay: 0.2s;
+}
+
+/* RTL (Right-to-Left) language support */
+.rtl-text {
+  direction: rtl;
+  text-align: right;
+  unicode-bidi: bidi-override;
+}
+
+/* Language-specific font stacks using system fonts */
+[lang="he"],
+[lang="hebrew"] {
+  font-family: 'SFMono-Regular', 'David', 'Narkisim', 'Times New Roman', serif;
+}
+
+[lang="ar"],
+[lang="arabic"] {
+  font-family: 'Geeza Pro', 'Traditional Arabic', 'Simplified Arabic', 'Times New Roman', serif;
+  line-height: 1.8;
+}
+
+[lang="sa"],
+[lang="sanskrit"],
+[lang="hi"] {
+  font-family: 'Devanagari MT', 'Devanagari Sangam MN', 'Kohinoor Devanagari', 'Noto Sans Devanagari', serif;
+  line-height: 1.8;
+}
+
+[lang="pi"],
+[lang="pali"] {
+  font-family: 'Noto Sans Myanmar', 'Noto Serif Myanmar', 'Padauk', serif;
+  line-height: 1.8;
+}
+
+[lang="la"],
+[lang="latin"] {
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+}
+
+[lang="el"],
+[lang="greek"] {
+  font-family: 'Times New Roman', 'Liberation Serif', serif;
+}
+
+/* Ensure proper rendering of non-Latin scripts */
+.rtl-text,
+[lang="he"],
+[lang="ar"],
+[lang="arabic"],
+[lang="hebrew"] {
+  font-feature-settings: "kern" 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Quote decoration adjustment for RTL */
+.rtl-text .quote-decoration::before,
+[dir="rtl"] .quote-decoration::before {
+  left: auto;
+  right: -0.5rem;
+}
+
 /* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -394,7 +546,10 @@
   .animate-blob,
   .skeleton::after,
   .progress-bar-fill,
-  .ring-loader .ring {
+  .ring-loader .ring,
+  .animate-sound-bar-1,
+  .animate-sound-bar-2,
+  .animate-sound-bar-3 {
     animation: none !important;
   }
 }

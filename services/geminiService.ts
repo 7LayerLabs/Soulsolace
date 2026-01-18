@@ -2,6 +2,7 @@ import { GoogleGenAI, Type, Schema } from "@google/genai";
 import { PrayerResponse, Religion, GroundingSource, LoadingPhase } from '../types';
 import { getCachedPrayer, cachePrayer } from './prayerCache';
 import { retryWithBackoff, isAbortError } from './retry';
+import { Season } from './religiousCalendar';
 
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
@@ -14,7 +15,7 @@ const prayerSchema: Schema = {
     },
     prayerBody: {
       type: Type.STRING,
-      description: "The full text of the prayer. Priority MUST be given to verbatim text from scripture or liturgy.",
+      description: "The full text of the prayer in English. Priority MUST be given to verbatim text from scripture or liturgy.",
     },
     explanation: {
       type: Type.STRING,
@@ -27,6 +28,18 @@ const prayerSchema: Schema = {
     origin: {
       type: Type.STRING,
       description: "The specific religious text or historical source this prayer comes from.",
+    },
+    originalLanguage: {
+      type: Type.STRING,
+      description: "The traditional original language of the prayer if not English. One of: Hebrew, Arabic, Sanskrit, Pali, Latin, Greek. Only include if the prayer has a traditional non-English original.",
+    },
+    originalText: {
+      type: Type.STRING,
+      description: "The prayer text in its original language script (Hebrew, Arabic, Devanagari, etc.). Only include if originalLanguage is specified.",
+    },
+    transliteration: {
+      type: Type.STRING,
+      description: "Romanized/phonetic transliteration of the original text for pronunciation. Only include if originalText is provided.",
     }
   },
   required: ["title", "prayerBody", "explanation", "isCanonical", "origin"],
@@ -49,6 +62,7 @@ const responseSchema: Schema = {
 export interface GeneratePrayerOptions {
   signal?: AbortSignal;
   onPhaseChange?: (phase: LoadingPhase) => void;
+  season?: Season;
 }
 
 export const generatePrayer = async (
@@ -56,7 +70,7 @@ export const generatePrayer = async (
   situation: string,
   options: GeneratePrayerOptions = {}
 ): Promise<{ prayers: PrayerResponse[]; sources: GroundingSource[]; fromCache: boolean }> => {
-  const { signal, onPhaseChange } = options;
+  const { signal, onPhaseChange, season } = options;
 
   // Check cache first
   const cached = getCachedPrayer(religion, situation);
@@ -78,11 +92,16 @@ export const generatePrayer = async (
         // Using gemini-2.0-flash for cost efficiency (~17x cheaper than Pro)
         const modelId = 'gemini-2.0-flash';
 
+        // Build season context if applicable
+        const seasonContext = season
+          ? `\n          SEASONAL CONTEXT: The user is currently observing ${season.name} - ${season.description}. Consider prayers and themes appropriate for this sacred time, such as: ${season.suggestedIntentions.join(', ')}.`
+          : '';
+
         const prompt = `
           The user is seeking 3 distinct, REAL, AUTHENTIC prayers from their tradition.
 
           Religion: ${religion}
-          Situation: "${situation}"
+          Situation: "${situation}"${seasonContext}
 
           INSTRUCTIONS:
           1. Use Google Search to find EXISTING, VERBATIM prayers, mantras, or scriptures from the ${religion} tradition that address the situation of "${situation}".
@@ -90,6 +109,10 @@ export const generatePrayer = async (
           3. If well-known scriptural or liturgical prayers exist, you MUST provide that exact text.
           4. If no specific verbatim prayer exists for this exact nuance, construct ones that strictly adhere to the authentic theological structure, language, and historical conventions of ${religion}.
           5. Clearly distinguish between "Canonical" (Existing/Scriptural) and "Tradition-Aligned" (Newly composed in that style).
+          6. IMPORTANT - Original Language: If the prayer has a traditional original language (Hebrew for Jewish prayers, Arabic for Islamic prayers, Sanskrit/Pali for Hindu/Buddhist texts, Latin/Greek for early Christian prayers), you MUST include:
+             - originalLanguage: The language name (Hebrew, Arabic, Sanskrit, Pali, Latin, or Greek)
+             - originalText: The prayer in its original script (e.g., Hebrew characters, Arabic script, Devanagari)
+             - transliteration: A romanized phonetic version for pronunciation
 
           Ensure the language is reverent and authentic. Generate exactly 3 prayers.
         `;
