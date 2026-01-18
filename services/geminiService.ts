@@ -75,8 +75,8 @@ export const generatePrayer = async (
           throw new DOMException('Aborted', 'AbortError');
         }
 
-        // Using gemini-3-pro-preview for high-quality reasoning and search capabilities
-        const modelId = 'gemini-3-pro-preview';
+        // Using gemini-2.0-flash for cost efficiency (~17x cheaper than Pro)
+        const modelId = 'gemini-2.0-flash';
 
         const prompt = `
           The user is seeking 3 distinct, REAL, AUTHENTIC prayers from their tradition.
