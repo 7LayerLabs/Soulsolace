@@ -11,7 +11,10 @@ import { CommunityPanel } from './components/CommunityPanel';
 import { SubscribeModal } from './components/SubscribeModal';
 import { JournalPanel } from './components/JournalPanel';
 import { FavoritesPanel } from './components/FavoritesPanel';
+import { AuthModal } from './components/AuthModal';
+import { SettingsPanel } from './components/SettingsPanel';
 import { getPrimarySeason, Season } from './services/religiousCalendar';
+import { useAuth, useUserPreferences } from './services/instantdb';
 
 const MAX_CHARS = 500;
 
@@ -30,9 +33,28 @@ const App: React.FC = () => {
   const [showSubscribeModal, setShowSubscribeModal] = useState(false);
   const [showJournalPanel, setShowJournalPanel] = useState(false);
   const [showFavoritesPanel, setShowFavoritesPanel] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showSettingsPanel, setShowSettingsPanel] = useState(false);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
+
+  // Auth and user preferences
+  const { user } = useAuth();
+  const { religion: savedReligion } = useUserPreferences();
+
+  // Auto-select religion if user has one saved
+  useEffect(() => {
+    if (savedReligion && state === 'SELECTION' && !selectedReligion) {
+      const savedOption = RELIGIONS.find(r => r.id === savedReligion);
+      if (savedOption) {
+        setSelectedReligion(savedOption);
+        setState('INPUT');
+        const season = getPrimarySeason(savedOption.id);
+        setCurrentSeason(season);
+      }
+    }
+  }, [savedReligion, state, selectedReligion]);
 
   useEffect(() => {
     if (state === 'INPUT' && textareaRef.current) {
@@ -179,11 +201,39 @@ const App: React.FC = () => {
 
           <button
             onClick={() => setShowSubscribeModal(true)}
-            className="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl shadow-sm text-white hover:from-indigo-700 hover:to-purple-700 transition-all group"
+            className="flex items-center gap-2 px-3 py-2 bg-white/80 backdrop-blur-md rounded-xl shadow-sm border border-white/40 text-slate-600 hover:text-purple-600 hover:border-purple-200 transition-all group"
           >
             <Icon name="Mail" className="w-4 h-4 transition-transform group-hover:scale-110" />
             <span className="text-sm font-medium hidden sm:inline">Subscribe</span>
           </button>
+
+          <button
+            onClick={() => setShowSettingsPanel(true)}
+            className="flex items-center gap-2 px-3 py-2 bg-white/80 backdrop-blur-md rounded-xl shadow-sm border border-white/40 text-slate-600 hover:text-slate-800 hover:border-slate-300 transition-all group"
+          >
+            <Icon name="Settings" className="w-4 h-4 transition-transform group-hover:rotate-45" />
+            <span className="text-sm font-medium hidden sm:inline">Settings</span>
+          </button>
+
+          {user ? (
+            <button
+              onClick={() => setShowSettingsPanel(true)}
+              className="flex items-center gap-2 px-3 py-2 bg-amber-500 rounded-xl shadow-sm text-white hover:bg-amber-600 transition-all group"
+            >
+              <Icon name="User" className="w-4 h-4" />
+              <span className="text-sm font-medium hidden sm:inline truncate max-w-[100px]">
+                {user.email?.split('@')[0]}
+              </span>
+            </button>
+          ) : (
+            <button
+              onClick={() => setShowAuthModal(true)}
+              className="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl shadow-sm text-white hover:from-amber-600 hover:to-orange-600 transition-all group"
+            >
+              <Icon name="LogIn" className="w-4 h-4 transition-transform group-hover:scale-110" />
+              <span className="text-sm font-medium hidden sm:inline">Sign In</span>
+            </button>
+          )}
         </nav>
 
         <header className={`text-center mb-12 transition-all duration-700 ${state === 'RESULT' ? 'md:mb-8 opacity-90' : 'md:mb-16'}`}>
@@ -385,6 +435,20 @@ const App: React.FC = () => {
       <FavoritesPanel
         isOpen={showFavoritesPanel}
         onClose={() => setShowFavoritesPanel(false)}
+      />
+
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+      />
+
+      <SettingsPanel
+        isOpen={showSettingsPanel}
+        onClose={() => setShowSettingsPanel(false)}
+        onSignInClick={() => {
+          setShowSettingsPanel(false);
+          setShowAuthModal(true);
+        }}
       />
     </div>
   );
