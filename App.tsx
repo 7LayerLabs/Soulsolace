@@ -151,46 +151,42 @@ const App: React.FC = () => {
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 py-12 md:py-20">
 
-        <header className={`text-center mb-12 transition-all duration-700 ${state === 'RESULT' ? 'md:mb-8 opacity-90' : 'md:mb-16'} relative`}>
-          {/* Header buttons */}
-          <div className="absolute right-0 top-0 flex items-center gap-2">
-            {/* Daily Prayers button */}
-            <button
-              onClick={() => setShowSubscribeModal(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl shadow-sm text-white hover:from-indigo-700 hover:to-purple-700 transition-all group"
-            >
-              <Icon name="Heart" className="w-5 h-5 transition-transform group-hover:scale-110" />
-              <span className="text-sm font-medium hidden sm:inline">Daily Prayers</span>
-            </button>
+        {/* Navigation bar */}
+        <nav className="flex justify-end items-center gap-2 mb-8 flex-wrap">
+          <button
+            onClick={() => setShowFavoritesPanel(true)}
+            className="flex items-center gap-2 px-3 py-2 bg-white/80 backdrop-blur-md rounded-xl shadow-sm border border-white/40 text-slate-600 hover:text-rose-500 hover:border-rose-200 transition-all group"
+          >
+            <Icon name="Heart" className="w-4 h-4 transition-transform group-hover:scale-110" />
+            <span className="text-sm font-medium hidden sm:inline">Favorites</span>
+          </button>
 
-            {/* Favorites button */}
-            <button
-              onClick={() => setShowFavoritesPanel(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-md rounded-xl shadow-sm border border-white/40 text-slate-600 hover:text-rose-500 hover:border-rose-200 transition-all group"
-            >
-              <Icon name="Heart" className="w-5 h-5 transition-transform group-hover:scale-110" />
-              <span className="text-sm font-medium hidden sm:inline">Favorites</span>
-            </button>
+          <button
+            onClick={() => setShowJournalPanel(true)}
+            className="flex items-center gap-2 px-3 py-2 bg-white/80 backdrop-blur-md rounded-xl shadow-sm border border-white/40 text-slate-600 hover:text-amber-600 hover:border-amber-200 transition-all group"
+          >
+            <Icon name="BookOpen" className="w-4 h-4 transition-transform group-hover:scale-110" />
+            <span className="text-sm font-medium hidden sm:inline">Journal</span>
+          </button>
 
-            {/* Journal button */}
-            <button
-              onClick={() => setShowJournalPanel(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-md rounded-xl shadow-sm border border-white/40 text-slate-600 hover:text-amber-600 hover:border-amber-200 transition-all group"
-            >
-              <Icon name="BookOpen" className="w-5 h-5 transition-transform group-hover:scale-110" />
-              <span className="text-sm font-medium hidden sm:inline">Journal</span>
-            </button>
+          <button
+            onClick={() => setShowCommunityPanel(true)}
+            className="flex items-center gap-2 px-3 py-2 bg-white/80 backdrop-blur-md rounded-xl shadow-sm border border-white/40 text-slate-600 hover:text-indigo-600 hover:border-indigo-200 transition-all group"
+          >
+            <Icon name="Users" className="w-4 h-4 transition-transform group-hover:scale-110" />
+            <span className="text-sm font-medium hidden sm:inline">Community</span>
+          </button>
 
-            {/* Community button */}
-            <button
-              onClick={() => setShowCommunityPanel(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-md rounded-xl shadow-sm border border-white/40 text-slate-600 hover:text-amber-600 hover:border-amber-200 transition-all group"
-            >
-              <Icon name="Users" className="w-5 h-5 transition-transform group-hover:scale-110" />
-              <span className="text-sm font-medium hidden sm:inline">Community</span>
-            </button>
-          </div>
+          <button
+            onClick={() => setShowSubscribeModal(true)}
+            className="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl shadow-sm text-white hover:from-indigo-700 hover:to-purple-700 transition-all group"
+          >
+            <Icon name="Mail" className="w-4 h-4 transition-transform group-hover:scale-110" />
+            <span className="text-sm font-medium hidden sm:inline">Subscribe</span>
+          </button>
+        </nav>
 
+        <header className={`text-center mb-12 transition-all duration-700 ${state === 'RESULT' ? 'md:mb-8 opacity-90' : 'md:mb-16'}`}>
           <div className="relative inline-flex items-center justify-center p-3 mb-6 bg-white/80 backdrop-blur-md rounded-2xl shadow-sm border border-white/40 overflow-hidden">
             <div className="absolute inset-0 opacity-20 bg-cover bg-center" style={{ backgroundImage: 'url("/assets/hero.png")' }} />
             <Icon name="ShieldCheck" className="w-6 h-6 text-amber-600 relative z-10" />

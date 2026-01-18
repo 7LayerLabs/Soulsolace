@@ -44,7 +44,12 @@ import {
   Music,
   Users,
   Languages,
-  Download
+  Download,
+  Mail,
+  Settings,
+  LogIn,
+  LogOut,
+  User
 } from 'lucide-react';
 
 export const Icons: Record<string, React.FC<{ className?: string }>> = {
@@ -93,7 +98,12 @@ export const Icons: Record<string, React.FC<{ className?: string }>> = {
   Music,
   Users,
   Languages,
-  Download
+  Download,
+  Mail,
+  Settings,
+  LogIn,
+  LogOut,
+  User
 };
 
 interface IconProps {
