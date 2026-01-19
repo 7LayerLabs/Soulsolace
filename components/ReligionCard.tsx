@@ -77,8 +77,8 @@ export const ReligionCard: React.FC<ReligionCardProps> = ({ option, onClick, isS
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className={`
-        relative overflow-hidden group p-6 rounded-2xl border transition-all duration-300
-        flex flex-col gap-4 h-full ripple-container card-shine animate-fade-in-up
+        relative overflow-hidden group p-4 sm:p-6 rounded-xl sm:rounded-2xl border transition-all duration-300
+        flex flex-col gap-3 sm:gap-4 h-full ripple-container card-shine animate-fade-in-up
         ${isSelected
           ? 'border-indigo-600 bg-white shadow-2xl scale-[1.02] z-20'
           : 'glass-card glass-card-hover'
@@ -109,7 +109,7 @@ export const ReligionCard: React.FC<ReligionCardProps> = ({ option, onClick, isS
 
       {/* Icon with glow effect on hover */}
       <div className={`
-        relative w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300
+        relative w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all duration-300
         ${option.color}
         ${isHovered ? 'shadow-lg scale-110' : ''}
       `}>
@@ -117,12 +117,12 @@ export const ReligionCard: React.FC<ReligionCardProps> = ({ option, onClick, isS
         <div
           className={`absolute inset-0 rounded-full blur-md transition-opacity duration-300 ${option.color} ${isHovered ? 'opacity-50' : 'opacity-0'}`}
         />
-        <Icon name={option.icon} className="w-6 h-6 relative z-10" />
+        <Icon name={option.icon} className="w-5 h-5 sm:w-6 sm:h-6 relative z-10" />
       </div>
 
       <div className="relative z-10 flex-1">
-        <h3 className="text-lg font-semibold text-slate-900 mb-1">{option.name}</h3>
-        <p className="text-sm text-slate-500 leading-relaxed">{option.description}</p>
+        <h3 className="text-base sm:text-lg font-semibold text-slate-900 mb-0.5 sm:mb-1">{option.name}</h3>
+        <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">{option.description}</p>
       </div>
 
       {/* Arrow indicator on hover */}

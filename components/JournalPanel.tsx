@@ -111,10 +111,10 @@ export const JournalPanel: React.FC<JournalPanelProps> = ({ isOpen, onClose }) =
       {/* Slideover Panel */}
       <div className="fixed inset-y-0 right-0 z-50 w-full max-w-md bg-white shadow-2xl transform transition-transform animate-slide-in-right">
         {/* Header */}
-        <div className="sticky top-0 z-10 bg-white border-b border-slate-100 px-6 py-4">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-slate-900 flex items-center gap-2">
-              <Icon name="BookOpen" className="w-6 h-6 text-amber-600" />
+        <div className="sticky top-0 z-10 bg-white border-b border-slate-100 px-4 sm:px-6 py-3 sm:py-4">
+          <div className="flex items-center justify-between mb-3 sm:mb-4">
+            <h2 className="text-lg sm:text-xl font-semibold text-slate-900 flex items-center gap-2">
+              <Icon name="BookOpen" className="w-5 h-5 sm:w-6 sm:h-6 text-amber-600" />
               Prayer Journal
             </h2>
             <button
@@ -126,12 +126,12 @@ export const JournalPanel: React.FC<JournalPanelProps> = ({ isOpen, onClose }) =
           </div>
 
           {/* Filter Tabs */}
-          <div className="flex gap-2">
+          <div className="flex gap-1.5 sm:gap-2">
             {(['all', 'answered', 'unanswered'] as FilterType[]).map((f) => (
               <button
                 key={f}
                 onClick={() => setFilter(f)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-all ${
                   filter === f
                     ? 'bg-amber-100 text-amber-700'
                     : 'text-slate-500 hover:bg-slate-100'
@@ -146,7 +146,7 @@ export const JournalPanel: React.FC<JournalPanelProps> = ({ isOpen, onClose }) =
         </div>
 
         {/* Entries List */}
-        <div className="overflow-y-auto h-[calc(100vh-140px)] px-4 py-4">
+        <div className="overflow-y-auto h-[calc(100vh-130px)] sm:h-[calc(100vh-140px)] px-3 sm:px-4 py-3 sm:py-4">
           {filteredEntries.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16 text-center">
               <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">

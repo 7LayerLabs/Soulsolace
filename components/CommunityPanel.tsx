@@ -138,14 +138,14 @@ export const CommunityPanel: React.FC<CommunityPanelProps> = ({ isOpen, onClose 
       {/* Panel */}
       <div className="fixed inset-y-0 right-0 w-full max-w-md bg-white shadow-2xl z-50 flex flex-col animate-slide-in-right">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-slate-100">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center">
-              <Icon name="Heart" className="w-5 h-5 text-amber-600" />
+        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-slate-100">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-amber-100 flex items-center justify-center">
+              <Icon name="Heart" className="w-4 h-4 sm:w-5 sm:h-5 text-amber-600" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-slate-900">Community Prayers</h2>
-              <p className="text-xs text-slate-500">Support others in their journey</p>
+              <h2 className="text-base sm:text-lg font-semibold text-slate-900">Community Prayers</h2>
+              <p className="text-[10px] sm:text-xs text-slate-500">Support others in their journey</p>
             </div>
           </div>
           <button
@@ -159,7 +159,7 @@ export const CommunityPanel: React.FC<CommunityPanelProps> = ({ isOpen, onClose 
         </div>
 
         {/* Submit button */}
-        <div className="p-4 border-b border-slate-100">
+        <div className="p-3 sm:p-4 border-b border-slate-100">
           <button
             onClick={() => setShowSubmitForm(!showSubmitForm)}
             className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-xl font-medium hover:from-amber-600 hover:to-amber-700 transition-all shadow-lg shadow-amber-200"
@@ -182,7 +182,7 @@ export const CommunityPanel: React.FC<CommunityPanelProps> = ({ isOpen, onClose 
         )}
 
         {/* Prayer list */}
-        <div className="flex-1 overflow-y-auto p-4">
+        <div className="flex-1 overflow-y-auto p-3 sm:p-4">
           {loading && prayers.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12">
               <div className="w-8 h-8 border-2 border-amber-500 border-t-transparent rounded-full animate-spin mb-4" />

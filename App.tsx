@@ -171,80 +171,79 @@ const App: React.FC = () => {
         <div className="absolute inset-0 bg-white/30 backdrop-blur-[2px]" />
       </div>
 
-      <div className="relative z-10 max-w-5xl mx-auto px-6 py-12 md:py-20">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-20">
 
-        {/* Navigation bar */}
-        <nav className="flex justify-end items-center gap-2 mb-8 flex-wrap">
+        {/* Navigation bar - horizontally scrollable on mobile */}
+        <nav className="flex justify-end items-center gap-2 mb-6 sm:mb-8 overflow-x-auto pb-2 -mx-2 px-2 scrollbar-hide">
           <button
             onClick={() => setShowFavoritesPanel(true)}
-            className="flex items-center gap-2 px-3 py-2 bg-white/80 backdrop-blur-md rounded-xl shadow-sm border border-white/40 text-slate-600 hover:text-rose-500 hover:border-rose-200 transition-all group"
+            className="flex-shrink-0 flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-2 bg-white/80 backdrop-blur-md rounded-xl shadow-sm border border-white/40 text-slate-600 hover:text-rose-500 hover:border-rose-200 transition-all group"
           >
             <Icon name="Heart" className="w-4 h-4 transition-transform group-hover:scale-110" />
-            <span className="text-sm font-medium hidden sm:inline">Favorites</span>
+            <span className="text-xs sm:text-sm font-medium">Favorites</span>
           </button>
 
           <button
             onClick={() => setShowJournalPanel(true)}
-            className="flex items-center gap-2 px-3 py-2 bg-white/80 backdrop-blur-md rounded-xl shadow-sm border border-white/40 text-slate-600 hover:text-amber-600 hover:border-amber-200 transition-all group"
+            className="flex-shrink-0 flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-2 bg-white/80 backdrop-blur-md rounded-xl shadow-sm border border-white/40 text-slate-600 hover:text-amber-600 hover:border-amber-200 transition-all group"
           >
             <Icon name="BookOpen" className="w-4 h-4 transition-transform group-hover:scale-110" />
-            <span className="text-sm font-medium hidden sm:inline">Journal</span>
+            <span className="text-xs sm:text-sm font-medium">Journal</span>
           </button>
 
           <button
             onClick={() => setShowCommunityPanel(true)}
-            className="flex items-center gap-2 px-3 py-2 bg-white/80 backdrop-blur-md rounded-xl shadow-sm border border-white/40 text-slate-600 hover:text-indigo-600 hover:border-indigo-200 transition-all group"
+            className="flex-shrink-0 flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-2 bg-white/80 backdrop-blur-md rounded-xl shadow-sm border border-white/40 text-slate-600 hover:text-indigo-600 hover:border-indigo-200 transition-all group"
           >
             <Icon name="Users" className="w-4 h-4 transition-transform group-hover:scale-110" />
-            <span className="text-sm font-medium hidden sm:inline">Community</span>
+            <span className="text-xs sm:text-sm font-medium hidden xs:inline">Community</span>
           </button>
 
           <button
             onClick={() => setShowSubscribeModal(true)}
-            className="flex items-center gap-2 px-3 py-2 bg-white/80 backdrop-blur-md rounded-xl shadow-sm border border-white/40 text-slate-600 hover:text-purple-600 hover:border-purple-200 transition-all group"
+            className="flex-shrink-0 flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-2 bg-white/80 backdrop-blur-md rounded-xl shadow-sm border border-white/40 text-slate-600 hover:text-purple-600 hover:border-purple-200 transition-all group"
           >
             <Icon name="Mail" className="w-4 h-4 transition-transform group-hover:scale-110" />
-            <span className="text-sm font-medium hidden sm:inline">Subscribe</span>
+            <span className="text-xs sm:text-sm font-medium hidden xs:inline">Subscribe</span>
           </button>
 
           <button
             onClick={() => setShowSettingsPanel(true)}
-            className="flex items-center gap-2 px-3 py-2 bg-white/80 backdrop-blur-md rounded-xl shadow-sm border border-white/40 text-slate-600 hover:text-slate-800 hover:border-slate-300 transition-all group"
+            className="flex-shrink-0 flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-2 bg-white/80 backdrop-blur-md rounded-xl shadow-sm border border-white/40 text-slate-600 hover:text-slate-800 hover:border-slate-300 transition-all group"
           >
             <Icon name="Settings" className="w-4 h-4 transition-transform group-hover:rotate-45" />
-            <span className="text-sm font-medium hidden sm:inline">Settings</span>
           </button>
 
           {user ? (
             <button
               onClick={() => setShowSettingsPanel(true)}
-              className="flex items-center gap-2 px-3 py-2 bg-amber-500 rounded-xl shadow-sm text-white hover:bg-amber-600 transition-all group"
+              className="flex-shrink-0 flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-2 bg-amber-500 rounded-xl shadow-sm text-white hover:bg-amber-600 transition-all group"
             >
               <Icon name="User" className="w-4 h-4" />
-              <span className="text-sm font-medium hidden sm:inline truncate max-w-[100px]">
+              <span className="text-xs sm:text-sm font-medium truncate max-w-[60px] sm:max-w-[100px]">
                 {user.email?.split('@')[0]}
               </span>
             </button>
           ) : (
             <button
               onClick={() => setShowAuthModal(true)}
-              className="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl shadow-sm text-white hover:from-amber-600 hover:to-orange-600 transition-all group"
+              className="flex-shrink-0 flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-2 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl shadow-sm text-white hover:from-amber-600 hover:to-orange-600 transition-all group"
             >
               <Icon name="LogIn" className="w-4 h-4 transition-transform group-hover:scale-110" />
-              <span className="text-sm font-medium hidden sm:inline">Sign In</span>
+              <span className="text-xs sm:text-sm font-medium">Sign In</span>
             </button>
           )}
         </nav>
 
-        <header className={`text-center mb-12 transition-all duration-700 ${state === 'RESULT' ? 'md:mb-8 opacity-90' : 'md:mb-16'}`}>
-          <div className="relative inline-flex items-center justify-center p-3 mb-6 bg-white/80 backdrop-blur-md rounded-2xl shadow-sm border border-white/40 overflow-hidden">
+        <header className={`text-center mb-8 sm:mb-12 transition-all duration-700 ${state === 'RESULT' ? 'md:mb-8 opacity-90' : 'md:mb-16'}`}>
+          <div className="relative inline-flex items-center justify-center p-2.5 sm:p-3 mb-4 sm:mb-6 bg-white/80 backdrop-blur-md rounded-xl sm:rounded-2xl shadow-sm border border-white/40 overflow-hidden">
             <div className="absolute inset-0 opacity-20 bg-cover bg-center" style={{ backgroundImage: 'url("/assets/hero.png")' }} />
-            <Icon name="ShieldCheck" className="w-6 h-6 text-amber-600 relative z-10" />
+            <Icon name="ShieldCheck" className="w-5 h-5 sm:w-6 sm:h-6 text-amber-600 relative z-10" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 tracking-tight mb-4 drop-shadow-sm">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 tracking-tight mb-3 sm:mb-4 drop-shadow-sm">
             SoulSolace
           </h1>
-          <p className="text-lg text-slate-600 max-w-xl mx-auto font-medium">
+          <p className="text-base sm:text-lg text-slate-600 max-w-xl mx-auto font-medium px-2">
             Access authentic scriptural prayers and traditional liturgy verified for your path.
           </p>
         </header>
@@ -252,10 +251,10 @@ const App: React.FC = () => {
         <main>
           {state === 'SELECTION' && (
             <div className="animate-fade-in">
-              <h2 className="text-2xl font-semibold text-slate-800 mb-8 text-center">
+              <h2 className="text-xl sm:text-2xl font-semibold text-slate-800 mb-6 sm:mb-8 text-center">
                 Select your tradition
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                 {RELIGIONS.map((rel, index) => (
                   <ReligionCard
                     key={rel.id}

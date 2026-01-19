@@ -57,10 +57,10 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
       {/* Panel */}
       <div className="relative w-full max-w-md bg-white shadow-2xl h-full overflow-y-auto animate-slide-in-right">
         {/* Header */}
-        <div className="sticky top-0 bg-white border-b border-slate-100 px-6 py-4 flex items-center justify-between z-10">
-          <div className="flex items-center gap-3">
+        <div className="sticky top-0 bg-white border-b border-slate-100 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between z-10">
+          <div className="flex items-center gap-2 sm:gap-3">
             <Icon name="Settings" className="w-5 h-5 text-slate-600" />
-            <h2 className="text-lg font-semibold text-slate-900">Settings</h2>
+            <h2 className="text-base sm:text-lg font-semibold text-slate-900">Settings</h2>
           </div>
           <button
             onClick={onClose}
@@ -70,7 +70,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
           </button>
         </div>
 
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           {/* Account Section */}
           <section className="mb-8">
             <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-4">

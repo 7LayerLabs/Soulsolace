@@ -82,15 +82,15 @@ export const FavoritesPanel: React.FC<FavoritesPanelProps> = ({ isOpen, onClose,
       <div className="fixed inset-y-0 right-0 w-full max-w-md z-50 animate-slide-in-right">
         <div className="h-full flex flex-col bg-white shadow-2xl">
           {/* Header */}
-          <div className="px-6 py-4 border-b border-slate-100 bg-gradient-to-r from-rose-50 to-pink-50">
+          <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-100 bg-gradient-to-r from-rose-50 to-pink-50">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-rose-100 flex items-center justify-center">
-                  <Icon name="Heart" className="w-5 h-5 text-rose-500" />
+              <div className="flex items-center gap-2 sm:gap-3">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-rose-100 flex items-center justify-center">
+                  <Icon name="Heart" className="w-4 h-4 sm:w-5 sm:h-5 text-rose-500" />
                 </div>
                 <div>
-                  <h2 className="text-lg font-semibold text-slate-900">Saved Prayers</h2>
-                  <p className="text-sm text-slate-500">{favorites.length} prayer{favorites.length !== 1 ? 's' : ''} saved</p>
+                  <h2 className="text-base sm:text-lg font-semibold text-slate-900">Saved Prayers</h2>
+                  <p className="text-xs sm:text-sm text-slate-500">{favorites.length} prayer{favorites.length !== 1 ? 's' : ''} saved</p>
                 </div>
               </div>
               <button
@@ -103,7 +103,7 @@ export const FavoritesPanel: React.FC<FavoritesPanelProps> = ({ isOpen, onClose,
           </div>
 
           {/* Search and Filter */}
-          <div className="px-6 py-4 border-b border-slate-100 space-y-3">
+          <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-100 space-y-3">
             {/* Search Input */}
             <div className="relative">
               <Icon name="Search" className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -132,7 +132,7 @@ export const FavoritesPanel: React.FC<FavoritesPanelProps> = ({ isOpen, onClose,
           </div>
 
           {/* Favorites List */}
-          <div className="flex-1 overflow-y-auto px-6 py-4">
+          <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-4">
             {filteredFavorites.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-full text-center py-12">
                 <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mb-4">
